@@ -4,16 +4,16 @@ on: [push, pull_request]
 
 jobs:
   run_tests:
-    runs-on: macOS-latest
+    runs-on: windows-latest
     steps:
     - uses: actions/checkout@v2
 
-    - uses: docker-practice/actions-setup-docker@master
+    # - uses: docker-practice/actions-setup-docker@master
 
-    - name: Installing docker
-      run: |
-        brew install docker-machine docker
-        sudo docker --version 
+    # - name: Installing docker
+    #   run: |
+    #     brew install docker-machine docker
+    #     sudo docker --version 
 
     - name: Build the stack
       run: docker-compose --file "./test/docker-compose.yml" up --detach    
@@ -26,7 +26,8 @@ jobs:
       working-directory: ./test 
 
     - name: Installing Dredd
-      run: sudo npm install dredd --global --unsafe-perm=true --allow-root      
+      run: npm install dredd --global --unsafe-perm=true --allow-root    
+      # run: sudo npm install dredd --global --unsafe-perm=true --allow-root      
 
     # - name: checking dredd version
     #   run: |
