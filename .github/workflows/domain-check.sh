@@ -1,3 +1,4 @@
+docker-compose up -d 
 counter=1
 for counter in {1..10}
 do

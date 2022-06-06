@@ -39,6 +39,11 @@ jobs:
     #   # shell: bash
     #   working-directory: ./test  
 
+    - name: Waiting for OpenSearch domain to be up.
+      run: sh ./.github/workflows/domain-check.sh
+      shell: bash
+      working-directory: ./test 
+
     # - name: Waiting for OpenSearch domain to be up.
     #   run: |
     #     counter=1
