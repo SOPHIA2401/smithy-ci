@@ -13,7 +13,7 @@
       "200": {
        "description": "GetPingCluster 200 response",
        "content": {
-        "application/json": {
+        "application/json; charset=UTF-8": {
          "schema": {
           "$ref": "#/components/schemas/GetPingClusterResponseContent"
          }
