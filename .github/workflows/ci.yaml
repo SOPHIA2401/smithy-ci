@@ -35,9 +35,9 @@ jobs:
       working-directory: ./test 
 
     - name: Installing docker
-        run: |
-          brew install docker-machine docker
-          sudo docker --version 
+      run: |
+        brew install docker-machine docker
+        sudo docker --version 
 
     - name: Build the stack
       run: docker-compose --file "./test/docker-compose.yml" up --detach       
