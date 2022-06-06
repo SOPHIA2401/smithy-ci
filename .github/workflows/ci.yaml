@@ -33,7 +33,10 @@ jobs:
     - name: Installing python modules 
       run: pipenv install --system
       working-directory: ./test 
-    
+
+    - name: Build the stack
+      run: docker-compose --file "./test/docker-compose.yml" up --detach       
+
     # - name: Build the stack
     #   run: docker-compose up -d         
     #   # shell: bash
