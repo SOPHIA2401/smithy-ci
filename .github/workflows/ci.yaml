@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   run_tests:
-    runs-on: windows-latest
+    runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v2
 
@@ -33,6 +33,11 @@ jobs:
     - name: Installing python modules 
       run: pipenv install --system
       working-directory: ./test 
+
+    - name: Installing docker
+        run: |
+          brew install docker-machine docker
+          sudo docker --version 
 
     - name: Build the stack
       run: docker-compose --file "./test/docker-compose.yml" up --detach       
