@@ -50,8 +50,7 @@ class Dredd:
             curr_dir = curr_path[len(curr_path)-1]         
             if files:
                 print(dirpath)
-                command = "npx dredd " + dirpath +"/"+ files[1]+ " " + self.endpoint+ " --user=" + self.user + " --names"
-                # command = "npx dredd " + dirpath +"/"+ files[1]+ " " + self.endpoint+ " --user=" + self.user + " --hookfiles=" + dirpath + "/" + files[0] + " -d" 
+                command = "dredd " + dirpath +"/"+ files[1]+ " " + self.endpoint+ " --user=" + self.user + " --hookfiles=" + dirpath + "/" + files[0] 
                 if self.test_name != "":
                     if self.test_name == curr_dir:
                         result = os.system(command)
