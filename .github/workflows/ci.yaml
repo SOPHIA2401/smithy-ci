@@ -36,7 +36,7 @@ jobs:
     
     - name: Build the stack
       run: docker-compose up -d         
-      shell: bash
+      # shell: bash
       working-directory: ./test  
 
     - name: Waiting for OpenSearch domain to be up.
