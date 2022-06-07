@@ -1,5 +1,5 @@
 counter=1
-for counter in {1..10}
+for $counter in {1..10}
 do
     if [ $(curl -s -o /dev/null --head -w "%{http_code}" 'https://admin:admin@localhost:9200' -H 'Content-Type:application/json' --insecure -v) -ne 200 ]; then
         sleep 30s
