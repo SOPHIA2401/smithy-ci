@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   run_tests:
-    runs-on: macOS-latest
+    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v2
 
@@ -15,13 +15,13 @@ jobs:
     #     brew install docker-machine docker
     #     sudo docker --version 
 
-    - name: Install Compose
-      uses: ndeloof/install-docker-compose@v2
-      with:
-        legacy: true    # will also install in PATH as `docker-compose`    
+    # - name: Install Compose
+    #   uses: ndeloof/install-docker-compose@v2
+    #   with:
+    #     legacy: true    # will also install in PATH as `docker-compose`    
 
-    - name: Build the stack
-      run: docker-compose --file "./test/docker-compose.yml" up --detach    
+    # - name: Build the stack
+    #   run: docker-compose --file "./test/docker-compose.yml" up --detach    
 
     - name: Set up Node.js 
       uses: actions/setup-node@v2   
@@ -62,26 +62,26 @@ jobs:
     #   shell: bash
     #   working-directory: ./test 
 
-    - name: Waiting for OpenSearch domain to be up.
-      run: |
-        counter=1
-        for counter in {1..10}
-        do
-            if [ $(curl -s -o /dev/null --head -w "%{http_code}" 'https://admin:admin@localhost:9200' -H 'Content-Type:application/json' --insecure -v) -ne 200 ]; then
-                sleep 30s
-            else
-                # Waiting for security plugin to be initialised and become operational.
-                echo  "Waiting for addtional 30 seconds.. for Opensearch domain to be up."
-                sleep 30s
-                break 
-            fi  
-        done
-        if [ $counter -eq 11 ]; then
-            echo "Unable to connect with OpenSearch URL https://localhost:9200/"
-            exit 1
-        fi
-      shell: bash
-      working-directory: ./test 
+    # - name: Waiting for OpenSearch domain to be up.
+    #   run: |
+    #     counter=1
+    #     for counter in {1..10}
+    #     do
+    #         if [ $(curl -s -o /dev/null --head -w "%{http_code}" 'https://admin:admin@localhost:9200' -H 'Content-Type:application/json' --insecure -v) -ne 200 ]; then
+    #             sleep 30s
+    #         else
+    #             # Waiting for security plugin to be initialised and become operational.
+    #             echo  "Waiting for addtional 30 seconds.. for Opensearch domain to be up."
+    #             sleep 30s
+    #             break 
+    #         fi  
+    #     done
+    #     if [ $counter -eq 11 ]; then
+    #         echo "Unable to connect with OpenSearch URL https://localhost:9200/"
+    #         exit 1
+    #     fi
+    #   shell: bash
+    #   working-directory: ./test 
     
     - name: Run script file
       run: |
