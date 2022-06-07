@@ -1,5 +1,5 @@
 counter=1
-for counter in {1..10}
+while [ $counter -le 5 ]
 do
     if [ $(curl -s -o /dev/null --head -w "%{http_code}" 'https://admin:admin@localhost:9200' -H 'Content-Type:application/json' --insecure -v) -ne 200 ]; then
         sleep 30s
@@ -9,6 +9,7 @@ do
         sleep 30s
         break 
     fi  
+    counter=$(( $counter + 1 ))
 done
 if [ $counter -eq 11 ]; then
     echo "Unable to connect with OpenSearch URL https://localhost:9200/"
