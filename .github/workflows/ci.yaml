@@ -8,37 +8,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # - uses: docker-practice/actions-setup-docker@master
-
-    # - name: Installing docker
-    #   run: |
-    #     brew install docker-machine docker
-    #     sudo docker --version 
-
-    # - name: Install Compose
-    #   uses: ndeloof/install-docker-compose@v2
-    #   with:
-    #     legacy: true    # will also install in PATH as `docker-compose`    
-
-    # - name: Build the stack
-    #   run: docker-compose --file "./test/docker-compose.yml" up --detach    
-
     - name: Set up Node.js 
-      uses: actions/setup-node@v2   
+      uses: actions/setup-node@v2
 
     - name: Installing node modules
       run: npm install
       working-directory: ./test 
 
     - name: Installing Dredd
-      run: npm install dredd --global --unsafe-perm=true --allow-root    
-      # run: sudo npm install dredd --global --unsafe-perm=true --allow-root      
-
-    # - name: checking dredd version
-    #   run: |
-    #     npx dredd --version
-    #     npm list
-    #   working-directory: ./test   
+      run: sudo npm install dredd --global --unsafe-perm=true --allow-root  
 
     - name: Set up Python
       uses: actions/setup-python@v2
@@ -52,40 +30,111 @@ jobs:
 
     - name: Build the stack
       run: docker-compose up -d         
-      # shell: bash
-      working-directory: ./test  
+      shell: bash
+      working-directory: ./test   
 
     - name: Waiting for OpenSearch domain to be up.
-      run: sh ./.github/workflows/domain-check.sh
-    #   shell: bash
-    #   working-directory: ./test 
-
-    # - name: Waiting for OpenSearch domain to be up.
-    #   run: |
-    #     counter=1
-    #     for counter in {1..10}
-    #     do
-    #         if [ $(curl -s -o /dev/null --head -w "%{http_code}" 'https://admin:admin@localhost:9200' -H 'Content-Type:application/json' --insecure -v) -ne 200 ]; then
-    #             sleep 30s
-    #         else
-    #             # Waiting for security plugin to be initialised and become operational.
-    #             echo  "Waiting for addtional 30 seconds.. for Opensearch domain to be up."
-    #             sleep 30s
-    #             break 
-    #         fi  
-    #     done
-    #     if [ $counter -eq 11 ]; then
-    #         echo "Unable to connect with OpenSearch URL https://localhost:9200/"
-    #         exit 1
-    #     fi
-    #   shell: bash
-    #   working-directory: ./test 
-    
+      run: sh ./.github/workflows/domain-check.sh      
+   
     - name: Run script file
       run: |
           #  Disabling TLS certificate verfication as hosted on docker.
           export NODE_TLS_REJECT_UNAUTHORIZED=0
-          python driver-code.py --testpass True
+          python driver-code.py 
       shell: bash
       working-directory: ./test/scripts
+
+
+
+
+# name: CI
+
+# on: [push, pull_request]
+
+# jobs:
+#   run_tests:
+#     runs-on: ubuntu-18.04
+#     steps:
+#     - uses: actions/checkout@v2
+
+#     # - uses: docker-practice/actions-setup-docker@master
+
+#     # - name: Installing docker
+#     #   run: |
+#     #     brew install docker-machine docker
+#     #     sudo docker --version 
+
+#     # - name: Install Compose
+#     #   uses: ndeloof/install-docker-compose@v2
+#     #   with:
+#     #     legacy: true    # will also install in PATH as `docker-compose`    
+
+#     # - name: Build the stack
+#     #   run: docker-compose --file "./test/docker-compose.yml" up --detach    
+
+#     - name: Set up Node.js 
+#       uses: actions/setup-node@v2   
+
+#     - name: Installing node modules
+#       run: npm install
+#       working-directory: ./test 
+
+#     - name: Installing Dredd
+#       run: npm install dredd --global --unsafe-perm=true --allow-root    
+#       # run: sudo npm install dredd --global --unsafe-perm=true --allow-root      
+
+#     # - name: checking dredd version
+#     #   run: |
+#     #     npx dredd --version
+#     #     npm list
+#     #   working-directory: ./test   
+
+#     - name: Set up Python
+#       uses: actions/setup-python@v2
+
+#     - name: Install pipenv
+#       run: pip install pipenv    
+
+#     - name: Installing python modules 
+#       run: pipenv install --system
+#       working-directory: ./test 
+
+#     - name: Build the stack
+#       run: docker-compose up -d         
+#       # shell: bash
+#       working-directory: ./test  
+
+#     - name: Waiting for OpenSearch domain to be up.
+#       run: sh ./.github/workflows/domain-check.sh
+#     #   shell: bash
+#     #   working-directory: ./test 
+
+#     # - name: Waiting for OpenSearch domain to be up.
+#     #   run: |
+#     #     counter=1
+#     #     for counter in {1..10}
+#     #     do
+#     #         if [ $(curl -s -o /dev/null --head -w "%{http_code}" 'https://admin:admin@localhost:9200' -H 'Content-Type:application/json' --insecure -v) -ne 200 ]; then
+#     #             sleep 30s
+#     #         else
+#     #             # Waiting for security plugin to be initialised and become operational.
+#     #             echo  "Waiting for addtional 30 seconds.. for Opensearch domain to be up."
+#     #             sleep 30s
+#     #             break 
+#     #         fi  
+#     #     done
+#     #     if [ $counter -eq 11 ]; then
+#     #         echo "Unable to connect with OpenSearch URL https://localhost:9200/"
+#     #         exit 1
+#     #     fi
+#     #   shell: bash
+#     #   working-directory: ./test 
+    
+#     - name: Run script file
+#       run: |
+#           #  Disabling TLS certificate verfication as hosted on docker.
+#           export NODE_TLS_REJECT_UNAUTHORIZED=0
+#           python driver-code.py --testpass True
+#       shell: bash
+#       working-directory: ./test/scripts
 

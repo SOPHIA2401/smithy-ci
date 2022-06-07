@@ -73,3 +73,12 @@ apply PostAliases @examples([
         }
     }
 ])
+
+apply PostAliases @examples([
+    {
+        title: "Examples for Post Aliases Operation.",
+        output:{
+            acknowledged: true
+        }
+    }
+])
