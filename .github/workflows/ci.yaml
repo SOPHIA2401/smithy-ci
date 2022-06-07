@@ -50,15 +50,13 @@ jobs:
       run: pipenv install --system
       working-directory: ./test 
 
-   
+    - name: Build the stack
+      run: docker-compose up -d         
+      # shell: bash
+      working-directory: ./test  
 
-    # - name: Build the stack
-    #   run: docker-compose up -d         
-    #   # shell: bash
-    #   working-directory: ./test  
-
-    # - name: Waiting for OpenSearch domain to be up.
-    #   run: sh ./.github/workflows/domain-check.sh
+    - name: Waiting for OpenSearch domain to be up.
+      run: sh ./.github/workflows/domain-check.sh
     #   shell: bash
     #   working-directory: ./test 
 
