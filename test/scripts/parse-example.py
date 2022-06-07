@@ -81,9 +81,9 @@ class OperationFilter:
             self.output + "/model.openapi.yaml" + " --no-sort"
         os.system(command)
 
-        # Removing temporary file.
-        file_path = self.output + "/model.openapi.json"
-        os.remove(file_path)
+        # # Removing temporary file.
+        # file_path = self.output + "/model.openapi.json"
+        # os.remove(file_path)
 
 
 # Parsing command line arguments:
@@ -102,14 +102,14 @@ obj.filter_operation()
 
 # Opening OpenAPI JSON file for checking operation ID.
 openapi_file_obj = open(
-    "../../build/smithyprojections/testing-ci/source/openapi/OpenSearch.openapi.json",
+    "../../build/smithyprojections/smithy-ci/source/openapi/OpenSearch.openapi.json",
     mode='r',
     encoding='utf-8')
 openapi_data = json.load(openapi_file_obj)
 
 # Opening Model JSON file for checking examples.
 model_file_obj = open(
-    "../../build/smithyprojections/testing-ci/source/model/model.json",
+    "../../build/smithyprojections/smithy-ci/source/model/model.json",
     mode='r',
     encoding='utf-8')
 model_data = json.load(model_file_obj)

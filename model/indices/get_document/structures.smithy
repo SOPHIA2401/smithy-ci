@@ -56,7 +56,6 @@ structure GetDocumentDocOutput {
     @required
     _index: IndexName,
 
-    @required
     _type: String,
 
     @required
@@ -134,7 +133,6 @@ apply GetDocumentDoc @examples([
         },
         output: {
             _index: "books",
-            _type: "_doc",
             _id: "1", 
             found: true
         }
