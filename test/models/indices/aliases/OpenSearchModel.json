@@ -53,11 +53,25 @@
   },
   "components": {
    "schemas": {
+    "ActionObjectStructure": {
+     "type": "object",
+     "properties": {
+      "add": {
+       "$ref": "#/components/schemas/UserDefinedStructure"
+      },
+      "remove": {
+       "$ref": "#/components/schemas/UserDefinedStructure"
+      },
+      "remove_index": {
+       "$ref": "#/components/schemas/UserDefinedStructure"
+      }
+     }
+    },
     "PostAliasesRequestContent": {
      "type": "object",
      "properties": {
       "actions": {
-       "$ref": "#/components/schemas/UserDefinedObjectStructureAction"
+       "$ref": "#/components/schemas/ActionObjectStructure"
       }
      }
     },
@@ -74,20 +88,6 @@
      ],
      "example": {
       "acknowledged": true
-     }
-    },
-    "UserDefinedObjectStructureAction": {
-     "type": "object",
-     "properties": {
-      "add": {
-       "$ref": "#/components/schemas/UserDefinedStructure"
-      },
-      "remove": {
-       "$ref": "#/components/schemas/UserDefinedStructure"
-      },
-      "remove_index": {
-       "$ref": "#/components/schemas/UserDefinedStructure"
-      }
      }
     },
     "UserDefinedStructure": {
