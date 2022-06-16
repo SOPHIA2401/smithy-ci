@@ -36,7 +36,7 @@ structure PutCreateIndexInput {
 structure PutCreateIndexOutput {
 
     @required
-    Index: IndexName,
+    index: IndexName,
 
     @required
     shards_acknowledged: Boolean,
@@ -51,7 +51,7 @@ apply PutCreateIndex @examples([
             index: "books"
         },
         output: {
-            Index: "books",
+            index: "books",
             shards_acknowledged: true,
             acknowledged: true
         }
