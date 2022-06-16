@@ -9,13 +9,11 @@ class Dredd:
             self.endpoint = endpoint
         else:     
             self.endpoint = "https://127.0.0.1:9200"
-            # self.endpoint = "https://search-veggies-h3miursexyzr46hlbqin27fxei.us-east-1.es.amazonaws.com"
 
         if user is not None:
             self.user = user
         else:
             self.user = "admin:admin"
-            # self.user = "sofigarg:T@rget2023"
 
         if path is not None:
             self.path = path
@@ -41,49 +39,51 @@ class Dredd:
 
     def dredd_work(self):
         # Walking in test directory tree and runing dredd framework.
-        tp = 0
-        tf = 0
+        test_failed_count = 0
+        test_passed_count = 0
         test_failed = []
         test_passed = []
         test_passes = PrettyTable()
         test_fails = PrettyTable()
         for dirpath, dirnames, files in os.walk("../models"+self.path):
             curr_path = dirpath.split('/')
-            curr_dir = curr_path[len(curr_path)-1]         
+            curr_dir = curr_path[len(curr_path)-1]
             if files:
-                print(dirpath)
-                command = "dredd " + dirpath +"/"+ files[1]+ " " + self.endpoint+ " --user=" + self.user + " --hookfiles=" + dirpath + "/" + files[0] 
+                command = "dredd " + dirpath +"/"+ files[1]+ " " + self.endpoint+ " --user=" + self.user + " --hookfiles=" + dirpath + "/" + files[0]
                 if self.test_name != "":
                     if self.test_name == curr_dir:
                         result = os.system(command)
-                        print("\n RESULT: ",result)
                         if(result != 0): 
+                            test_failed_count = test_failed_count + 1
                             test_failed.append([curr_dir,dirpath])
-                            tf = tf+1
                         else:
-                            tp = tp+1
+                            test_passed_count = test_passed_count + 1
                             test_passed.append([curr_dir,dirpath])                                  
                 else:
-                    result = os.system(command) 
-                    print("\n RESULT: ",result) 
+                    result = os.system(command)  
                     if(result != 0):
-                        tf = tf+1
+                        test_failed_count = test_failed_count + 1
                         test_failed.append([curr_dir,dirpath])
                     else:
-                        tp = tp+1
+                        test_passed_count = test_passed_count + 1
                         test_passed.append([curr_dir,dirpath]) 
+        print("Total number of test cases: ", test_failed_count + test_passed_count )
+        print("Test Passed: ",test_passed_count)
+        print("Test failed: ",test_failed_count)
         if self.test_pass == True:
             test_passes.field_names = ["Model Name", "Directory Path"]
             test_passes.add_rows(test_passed)
             test_passes.align='l'
             print("Results: Test cases passed.",test_passes,sep="\n")
-        print("Total number of test cases: ", tp+tf)
-        print("Test Passed: ",tp)
-        print("Test failed: ",tf)
+
         test_fails.field_names = ["Model Name", "Directory Path"]
         test_fails.add_rows(test_failed)
         test_fails.align='l'
         print("Results: Test cases failed.",test_fails,sep="\n")
+
+        # Removing temporary-credentials file.
+        os.remove('url.txt')
+
         return len(test_failed)       
 
 
@@ -105,4 +105,3 @@ obj.write_file()
 
 # Running dredd
 exit(obj.dredd_work())
-

@@ -1,5 +1,10 @@
+# NOTE:
+# The OpenAPI smithy dependency currently does not support parsing
+# examples from smithy models into an OpenAPI specs file. We can remove
+# the script for manually parsing examples from json to openapi file once
+# this dependency is supported.
+
 import argparse
-from pathlib import Path
 import shutil
 import json
 import os
@@ -11,9 +16,7 @@ class OperationFilter:
         self.output = output
 
     def filter_operation(self):
-
-        # Creating a copy of original opensearch.smithy file for altering
-        # operations.
+        # Creating a copy of opensearch.smithy file for altering operations.
         original = r'../../model/opensearch.smithy'
         target = r'opensearch_temp.smithy'
 
@@ -26,6 +29,7 @@ class OperationFilter:
         # Changing current directory for building model.
         os.chdir('../../')
         os.system('gradle build')
+
         # Back to current folder.
         os.chdir('test/scripts/')
 
@@ -37,15 +41,13 @@ class OperationFilter:
 
     def parse_example(self,openapi_data, model_data):
         dict = {}
-        # Parsing examples corresponding to operation-ids from the model json
-        # file.
+        # Parsing examples corresponding to operation-ids from Model json file.
         for operation in model_data['shapes'].keys():
             # Checking operation-ids in Model json file.
             if model_data['shapes'][operation]['type'] == 'operation':
                 if 'traits' in model_data['shapes'][operation].keys():
                     # Checking examples for operation-id
-                    if 'smithy.api#examples' in model_data['shapes'][operation]['traits'].keys(
-                    ):
+                    if 'smithy.api#examples' in model_data['shapes'][operation]['traits'].keys():
                         # Storing operation-id and examples in a dictionary.
                         dict[operation] = model_data['shapes'][operation]['traits']['smithy.api#examples']
 
@@ -71,19 +73,8 @@ class OperationFilter:
                         # Adding examples for Output params
                         if 'output' in example:
                             op_out_name = op_id + 'ResponseContent'
-                            if op_out_name in openapi_data['components']['schemas'].keys(
-                            ):
+                            if op_out_name in openapi_data['components']['schemas'].keys():
                                 openapi_data['components']['schemas'][op_out_name]['example'] = example['output']
-
-    def file_conversion(self):
-        # Coverting JSON file to yaml file.
-        command = "openapi-format " + self.output + "/model.openapi.json -o " + \
-            self.output + "/model.openapi.yaml" + " --no-sort"
-        os.system(command)
-
-        # # Removing temporary file.
-        # file_path = self.output + "/model.openapi.json"
-        # os.remove(file_path)
 
 
 # Parsing command line arguments:
@@ -132,5 +123,3 @@ openapi_file_obj.close()
 model_file_obj.close()
 model_openapi_file_obj.close()
 
-# Converting json to yaml file.
-obj.file_conversion()
