@@ -15,7 +15,7 @@ structure PostAliasesInput {
     @httpQuery("timeout")
     timeout: Time,
 
-   // Request-body parameters 
+    // Request-body parameters 
 
     actions: ActionObjectStructure
 
