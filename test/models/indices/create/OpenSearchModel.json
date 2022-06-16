@@ -95,7 +95,7 @@
     "PutCreateIndexResponseContent": {
      "type": "object",
      "properties": {
-      "index": {
+      "Index": {
        "type": "string",
        "pattern": "^[^+_\\-\\.][^\\\\, /*?\"<>| ,#\\nA-Z]+$"
       },
@@ -109,12 +109,12 @@
       }
      },
      "required": [
+      "Index",
       "acknowledged",
-      "index",
       "shards_acknowledged"
      ],
      "example": {
-      "index": "books",
+      "Index": "books",
       "shards_acknowledged": true,
       "acknowledged": true
      }
@@ -125,5 +125,4 @@
     }
    }
   }
-}
-
+ }
