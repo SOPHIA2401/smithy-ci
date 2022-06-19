@@ -111,7 +111,7 @@
           "type": "string"
          },
          "required": true,
-         "example": "index"
+         "example": "*"
         },
         {
          "name": "allow_no_indices",
