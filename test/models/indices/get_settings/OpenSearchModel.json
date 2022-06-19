@@ -95,7 +95,7 @@
        "operationId": "GetSettingsIndexSetting",
        "parameters": [
         {
-         "name": "Index",
+         "name": "index",
          "in": "path",
          "schema": {
           "type": "string",
@@ -111,7 +111,7 @@
           "type": "string"
          },
          "required": true,
-         "example": "*"
+         "example": "index"
         },
         {
          "name": "allow_no_indices",
@@ -199,4 +199,4 @@
       "GetSettingsIndexSettingOutputPayload": {}
      }
     }
-   }
+}
